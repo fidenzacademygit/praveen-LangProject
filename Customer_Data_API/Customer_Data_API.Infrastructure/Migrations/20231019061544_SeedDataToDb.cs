@@ -7,7 +7,7 @@
 namespace Customer_Data_API.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class SeedDataToEntity : Migration
+    public partial class SeedDataToDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

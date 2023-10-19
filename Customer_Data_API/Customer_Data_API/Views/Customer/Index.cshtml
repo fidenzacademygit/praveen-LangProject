@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Customer_Data_API.Domain.Entities.Customer>
+
+<h1>Customer List</h1>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Index</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Eye Color</th>
+            <th>Gender</th>
+            <th>Company</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>About</th>
+            <th>Registered At</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Tags</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var obj in Model)
+        {
+            if (obj.Address != null && obj.Tags != null)
+            {
+                <tr>
+                    <td>@obj.Id</td>
+                    <td>@obj.Index</td>
+                    <td>@obj.Name</td>
+                    <td>@obj.Age</td>
+                    <td>@obj.EyeColor</td>
+                    <td>@obj.Gender</td>
+                    <td>@obj.Company</td>
+                    <td>@obj.Email</td>
+                    <td>@obj.Phone</td>
+                    <td>No.@obj.Address.Number, @obj.Address.Street, @obj.Address.City, @obj.Address.State, @obj.Address.Zipcode</td>
+                    <td>@obj.About</td>
+                    <td>@obj.Registered</td>
+                    <td>@obj.Latitude</td>
+                    <td>@obj.Longitude</td>
+                    <td>
+                        @foreach (var tag in obj.Tags)
+                        {
+                            @tag
+                            <br />
+                        }
+                    </td>
+                </tr>
+                
+            }
+            
+        }
+
+    </tbody>
+
+</table>

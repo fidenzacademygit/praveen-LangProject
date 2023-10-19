@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Customer_Data_API.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231018200806_SeedDataToEntity")]
-    partial class SeedDataToEntity
+    [Migration("20231019061544_SeedDataToDb")]
+    partial class SeedDataToDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

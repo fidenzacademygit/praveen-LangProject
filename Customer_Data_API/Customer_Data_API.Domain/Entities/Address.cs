@@ -23,7 +23,7 @@ namespace Customer_Data_API.Domain.Entities
 
 		public string? CustomerId { get; set; }
 
-		public Customer Customer { get; set; }
+		public Customer? Customer { get; set; }
 
 	}
 }
