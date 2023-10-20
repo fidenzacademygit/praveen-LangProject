@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Customer_Data_API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231019155644_AddModelsToDb")]
+    [Migration("20231020062419_AddModelsToDb")]
     partial class AddModelsToDb
     {
         /// <inheritdoc />

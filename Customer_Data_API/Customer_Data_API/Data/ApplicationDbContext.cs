@@ -14,6 +14,10 @@ namespace Customer_Data_API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Customer>()
+            .HasOne<Address>(s => s.Address)
+            .WithOne(ad => ad.Customer)
+            .HasForeignKey<Address>(ad => ad.CustomerId);
             modelBuilder.Entity<Customer>().HasData(CustomerDataSeeder.CustomData());
             modelBuilder.Entity<Address>().HasData(AddressDataSeeder.AddressData());
         }
