@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata.Ecma335;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Customer_Data_API.Controllers
 {
     [Route("api/[controller]")]
@@ -60,12 +58,12 @@ namespace Customer_Data_API.Controllers
         [HttpGet("SearchCustomers")]
         public IEnumerable<Customer> SearchCustomers(string searchText)
         {
-            searchText = searchText.ToLower(); // Convert search text to lowercase for case-insensitive search
+            searchText = searchText.ToLower();
 
             var customers = _dbContext.Customers.Include(c => c.Address);
 
             var matchingCustomers = customers
-                .Where(c => c.Name.ToLower().Contains(searchText)) // Partial name match
+                .Where(c => c.Name.ToLower().Contains(searchText))
                 .ToList();
 
             return matchingCustomers;
