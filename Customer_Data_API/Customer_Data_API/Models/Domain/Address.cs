@@ -7,7 +7,7 @@ namespace Customer_Data_API.Models.Domain
         public string? Id { get; set; }
 
         [JsonProperty("number")]
-        public int Number { get; set; }
+        public int? Number { get; set; }
 
         [JsonProperty("street")]
         public string? Street { get; set; }
@@ -19,7 +19,7 @@ namespace Customer_Data_API.Models.Domain
         public string? State { get; set; }
 
         [JsonProperty("zipcode")]
-        public int Zipcode { get; set; }
+        public int? Zipcode { get; set; }
 
         public string? CustomerId { get; set; }
 

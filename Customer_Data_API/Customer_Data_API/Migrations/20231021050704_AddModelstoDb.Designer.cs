@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Customer_Data_API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231020062419_AddModelsToDb")]
-    partial class AddModelsToDb
+    [Migration("20231021050704_AddModelstoDb")]
+    partial class AddModelstoDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,7 +36,7 @@ namespace Customer_Data_API.Migrations
                     b.Property<string>("CustomerId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("Number")
+                    b.Property<int?>("Number")
                         .HasColumnType("int");
 
                     b.Property<string>("State")
@@ -45,7 +45,7 @@ namespace Customer_Data_API.Migrations
                     b.Property<string>("Street")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Zipcode")
+                    b.Property<int?>("Zipcode")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

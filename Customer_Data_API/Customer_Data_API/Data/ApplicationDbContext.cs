@@ -20,6 +20,7 @@ namespace Customer_Data_API.Data
             .HasForeignKey<Address>(ad => ad.CustomerId);
             modelBuilder.Entity<Customer>().HasData(CustomerDataSeeder.CustomData());
             modelBuilder.Entity<Address>().HasData(AddressDataSeeder.AddressData());
+
         }
     }
 }

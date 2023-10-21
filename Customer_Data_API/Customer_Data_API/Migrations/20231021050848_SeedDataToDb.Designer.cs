@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Customer_Data_API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231020062531_SeedDataToDb")]
+    [Migration("20231021050848_SeedDataToDb")]
     partial class SeedDataToDb
     {
         /// <inheritdoc />
@@ -36,7 +36,7 @@ namespace Customer_Data_API.Migrations
                     b.Property<string>("CustomerId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("Number")
+                    b.Property<int?>("Number")
                         .HasColumnType("int");
 
                     b.Property<string>("State")
@@ -45,7 +45,7 @@ namespace Customer_Data_API.Migrations
                     b.Property<string>("Street")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Zipcode")
+                    b.Property<int?>("Zipcode")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
