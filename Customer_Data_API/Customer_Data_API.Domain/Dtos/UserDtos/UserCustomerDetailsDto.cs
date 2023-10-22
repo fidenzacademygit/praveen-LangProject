@@ -1,10 +1,8 @@
-﻿namespace Customer_Data_API.Models.Dtos.AdminDtos
+﻿namespace Customer_Data_API.Domain.Dtos.UserDtos
 {
-    public class AdminCustomerDetailsDto
+    public class UserCustomerDetailsDto
     {
         public string? Id { get; set; }
-
-        public int? Index { get; set; }
 
         public int? Age { get; set; }
 
@@ -24,13 +22,10 @@
 
         public string? About { get; set; }
 
-        public string? Registered { get; set; }
-
         public double? Latitude { get; set; }
 
         public double? Longitude { get; set; }
 
-        public List<string>? Tags { get; set; }
     }
     public class AddressDto
     {

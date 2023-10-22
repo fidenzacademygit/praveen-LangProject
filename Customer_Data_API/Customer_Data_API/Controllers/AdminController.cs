@@ -1,9 +1,7 @@
-﻿using AutoMapper;
-using Customer_Data_API.Data;
-using Customer_Data_API.Models.Dtos.AdminDtos;
-using Customer_Data_API.Models.Dtos.UserDtos;
+﻿using Customer_Data_API.Domain.Abstractions;
+using Customer_Data_API.Domain.Dtos.AdminDtos;
+using Customer_Data_API.Domain.Dtos.UserDtos;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Customer_Data_API.Controllers
 {
@@ -11,14 +9,11 @@ namespace Customer_Data_API.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
-        private ApplicationDbContext _dbContext;
-
-        public AdminController(ApplicationDbContext dbContext, IMapper mapper)
+        public AdminController(IAdminService service)
         {
-            _dbContext = dbContext;
-            _mapper = mapper;
+            _service = service;
         }
-        private readonly IMapper _mapper;
+        private readonly IAdminService _service;
 
 
         //A. Edit Customer
@@ -26,18 +21,16 @@ namespace Customer_Data_API.Controllers
         [HttpPut("{Id}")]
         public IActionResult EditCustomer(string Id, [FromBody] AdminCustomerDetailsDto customerObj)
         {
-            var customer = _dbContext.Customers.Include(c => c.Address).FirstOrDefault(c => c.Id == Id);
-            if (customer != null)
+
+            if (_service.EditCustomer(Id, customerObj))
             {
-                _mapper.Map(customerObj, customer);
+                return Ok("Success");
             }
             else
             {
                 return NotFound("User Not Available!");
             }
-
-            _dbContext.SaveChanges();
-            return Ok("Success");
+            
         }
 
 
@@ -46,28 +39,7 @@ namespace Customer_Data_API.Controllers
         [HttpGet("SearchCustomers")]
         public IEnumerable<UserCustomerDetailsDto> SearchCustomers(string searchText)
         {
-            searchText = searchText.ToLower();
-
-            var customers = _dbContext.Customers.Include(c => c.Address);
-
-            IEnumerable<UserCustomerDetailsDto> matchingCustomers = Enumerable.Empty<UserCustomerDetailsDto>();
-
-            matchingCustomers = customers
-                .Where(c =>
-                    c.EyeColor.ToLower().Contains(searchText) ||
-                    c.Name.ToLower().Contains(searchText) ||
-                    c.Gender.ToLower().Contains(searchText) ||
-                    c.Company.ToLower().Contains(searchText) ||
-                    c.Email.ToLower().Contains(searchText) ||
-                    c.Phone.ToLower().Contains(searchText) ||
-                    c.Address.State.ToLower().Contains(searchText) ||
-                    c.Address.Street.ToLower().Contains(searchText) ||
-                    c.About.ToLower().Contains(searchText) ||
-                    c.Address.City.ToLower().Contains(searchText)
-                )
-                .Select(c => _mapper.Map<UserCustomerDetailsDto>(c))
-                .ToList();
-            return matchingCustomers;
+            return _service.SearchCustomers(searchText);
         }
 
         //D. Get customer list grouped by Zip code
@@ -75,16 +47,7 @@ namespace Customer_Data_API.Controllers
         [HttpGet("CustomersGroupByZipcode")]
         public IActionResult GetCustomersGroupedByZipCode()
         {
-            var customers = _dbContext.Customers.Include(c => c.Address);
-            var groupedCustomers = customers
-                .GroupBy(c => c.Address.Zipcode)
-                .Select(group => new
-                {
-                    ZipCode = group.Key,
-                    Customers = group.Select(c => _mapper.Map<UserCustomerDetailsDto>(c)).ToList()
-                });
-
-            return Ok(groupedCustomers);
+            return Ok(_service.GetCustomersGroupedByZipCode());
         }
 
 
@@ -93,21 +56,14 @@ namespace Customer_Data_API.Controllers
 
         public IEnumerable<AdminCustomerDetailsDto> GetAllCustomers()
         {
-            var customers = _dbContext.Customers.Include(c => c.Address);
-            var customersDetails = customers.Select(c => _mapper.Map<AdminCustomerDetailsDto>(c));
-
-            return customersDetails;
+            return _service.GetAllCustomers();
         }
 
         // GET api/Admin/GetCustomerById/5aa252be01865d3202ddcbac
         [HttpGet("GetCustomerById/{Id}")]
         public AdminCustomerDetailsDto? GetCustomersById(string Id)
         {
-            var customer = _dbContext.Customers
-                .Include(c => c.Address)
-                .Select(c => _mapper.Map<AdminCustomerDetailsDto>(c)).ToList()
-                .FirstOrDefault(c => c.Id == Id);
-            return customer;
+            return _service.GetCustomersById(Id);
         }
     }
 }

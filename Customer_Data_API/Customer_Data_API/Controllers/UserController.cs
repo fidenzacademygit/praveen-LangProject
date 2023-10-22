@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Customer_Data_API.Data;
-using Customer_Data_API.Models.Dtos.UserDtos;
+using Customer_Data_API.Domain.Abstractions;
+using Customer_Data_API.Domain.Dtos.UserDtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,50 +12,19 @@ namespace Customer_Data_API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private ApplicationDbContext _dbContext;
-
-        public UserController(ApplicationDbContext dbContext, IMapper mapper)
+        public UserController(IUserService service)
         {
-            _dbContext = dbContext;
-            _mapper = mapper;
+            _service = service;
         }
-        private readonly IMapper _mapper;
+        private readonly IUserService _service;
 
         //A. Edit Customer
         // PUT api/User/5aa252be01865d3202ddcbac
         [HttpPut("{Id}")]
-        public IActionResult EditCustomer(string Id, [FromBody] EditCustomerDetails customerObj)
+        public IActionResult EditCustomer(string Id, [FromBody] EditCustomerDetailsDTO customerObj)
         {
-            var customer = _dbContext.Customers.Include(c => c.Address).FirstOrDefault(c => c.Id == Id);
-            if (customer != null)
-            {
-                if (customerObj.Name != null || customerObj.Email != null || customerObj.Phone != null)
-                {
-                    if (customerObj.Name != null)
-                    {
-                        customer.Name = customerObj.Name;
-                    }
-                    if (customerObj.Email != null)
-                    {
-                        customer.Email = customerObj.Email;
-                    }
-                    if (customerObj.Phone != null)
-                    {
-                        customer.Phone = customerObj.Phone;
-                    }
-                }
-                else
-                {
-                    return NotFound("Enter Edit Details!");
-                }
-            }
-            else
-            {
-                return NotFound("User Not Available!");
-            }
-
-            _dbContext.SaveChanges();
-            return Ok("Success");
+            if (_service.EditCustomer(Id, customerObj)){return Ok("Success");}
+            else{return Ok("Unsuccess");}
         }
 
         //B. Get Distance
@@ -62,47 +32,14 @@ namespace Customer_Data_API.Controllers
         [HttpGet("GetDistance/{Id}")]
         public IActionResult GetDistance(string Id, double latitude, double longitude)
         {
-            var customer = _dbContext.Customers.Find(Id);
-
-            if (customer == null)
-            {
-                return NotFound("Customer not found");
-            }
-
-            double? earthRadiusKm = 6371;
-
-            double? lat1 = ToRadians(customer.Latitude);
-            double? lon1 = ToRadians(customer.Longitude);
-            double? lat2 = ToRadians(latitude);
-            double? lon2 = ToRadians(longitude);
-
-            double? dLat = lat2 - lat1;
-            double? dLon = lon2 - lon1;
-
-            double? a = Math.Sin((double)(dLat / 2)) * Math.Sin((double)(dLat / 2)) +
-                       Math.Cos((double)lat1) * Math.Cos((double)lat2) *
-                       Math.Sin((double)(dLon / 2)) * Math.Sin((double)(dLon / 2));
-
-            double? c = 2 * Math.Atan2(Math.Sqrt((double)a), Math.Sqrt((double)(1 - a)));
-
-            double? distance = earthRadiusKm * c;
-
-            return Ok(distance);
-        }
-        private static double? ToRadians(double? degrees)
-        {
-            return (degrees * (Math.PI / 180));
+            return Ok(_service.GetDistance(Id, latitude, longitude));
         }
 
         // GET api/User/5
         [HttpGet("GetCustomerById/{Id}")]
         public UserCustomerDetailsDto? GetCustomersById(string Id)
-        {
-            var customer = _dbContext.Customers
-                .Include(c => c.Address)
-                .Select(c => _mapper.Map<UserCustomerDetailsDto>(c)).ToList()
-                .FirstOrDefault(c => c.Id == Id);              
-            return customer;
+        {             
+            return _service.GetCustomersById(Id);
         }
         
     }

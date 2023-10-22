@@ -1,6 +1,6 @@
-﻿namespace Customer_Data_API.Models.Dtos.UserDtos
+﻿namespace Customer_Data_API.Domain.Dtos.UserDtos
 {
-    public class EditCustomerDetails
+    public class EditCustomerDetailsDTO
     {
         public string? Name { get; set; }
 

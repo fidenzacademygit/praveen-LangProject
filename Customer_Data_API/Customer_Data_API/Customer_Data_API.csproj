@@ -19,12 +19,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Customer_Data_API.Data\Customer_Data_API.Data.csproj" />
+    <ProjectReference Include="..\Customer_Data_API.Domain\Customer_Data_API.Domain.csproj" />
   </ItemGroup>
 
 </Project>
