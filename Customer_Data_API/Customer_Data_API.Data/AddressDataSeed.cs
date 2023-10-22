@@ -1,10 +1,9 @@
-﻿using Customer_Data_API.Models.Domain;
+﻿using Customer_Data_API.Domain.Models;
 using Newtonsoft.Json;
-using System.Net;
 
 namespace Customer_Data_API.Data
 {
-    public static class AddressDataSeeder
+    public static class AddressDataSeed
     {
         public static List<Address> AddressData()
         {

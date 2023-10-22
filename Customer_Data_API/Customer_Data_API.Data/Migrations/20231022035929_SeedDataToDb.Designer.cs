@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Customer_Data_API.Migrations
+namespace Customer_Data_API.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231021050848_SeedDataToDb")]
+    [Migration("20231022035929_SeedDataToDb")]
     partial class SeedDataToDb
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace Customer_Data_API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Customer_Data_API.Models.Domain.Address", b =>
+            modelBuilder.Entity("Customer_Data_API.Domain.Models.Address", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -1269,7 +1269,7 @@ namespace Customer_Data_API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Customer_Data_API.Models.Domain.Customer", b =>
+            modelBuilder.Entity("Customer_Data_API.Domain.Models.Customer", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -3377,16 +3377,16 @@ namespace Customer_Data_API.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Customer_Data_API.Models.Domain.Address", b =>
+            modelBuilder.Entity("Customer_Data_API.Domain.Models.Address", b =>
                 {
-                    b.HasOne("Customer_Data_API.Models.Domain.Customer", "Customer")
+                    b.HasOne("Customer_Data_API.Domain.Models.Customer", "Customer")
                         .WithOne("Address")
-                        .HasForeignKey("Customer_Data_API.Models.Domain.Address", "CustomerId");
+                        .HasForeignKey("Customer_Data_API.Domain.Models.Address", "CustomerId");
 
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("Customer_Data_API.Models.Domain.Customer", b =>
+            modelBuilder.Entity("Customer_Data_API.Domain.Models.Customer", b =>
                 {
                     b.Navigation("Address");
                 });

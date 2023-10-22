@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace Customer_Data_API.Migrations
+namespace Customer_Data_API.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddModelstoDb : Migration
+    public partial class AddDomainModelsToDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -4,7 +4,7 @@
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace Customer_Data_API.Migrations
+namespace Customer_Data_API.Data.Migrations
 {
     /// <inheritdoc />
     public partial class SeedDataToDb : Migration

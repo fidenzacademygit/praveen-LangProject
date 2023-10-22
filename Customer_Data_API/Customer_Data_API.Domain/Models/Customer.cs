@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Customer_Data_API.Models.Domain
+namespace Customer_Data_API.Domain.Models
 {
     public class Customer
     {

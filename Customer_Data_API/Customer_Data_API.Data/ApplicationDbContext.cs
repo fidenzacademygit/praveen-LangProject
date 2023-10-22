@@ -1,4 +1,4 @@
-﻿using Customer_Data_API.Models.Domain;
+﻿using Customer_Data_API.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Customer_Data_API.Data
@@ -18,8 +18,8 @@ namespace Customer_Data_API.Data
             .HasOne<Address>(s => s.Address)
             .WithOne(ad => ad.Customer)
             .HasForeignKey<Address>(ad => ad.CustomerId);
-            modelBuilder.Entity<Customer>().HasData(CustomerDataSeeder.CustomData());
-            modelBuilder.Entity<Address>().HasData(AddressDataSeeder.AddressData());
+            modelBuilder.Entity<Customer>().HasData(CustomerDataSeed.CustomData());
+            modelBuilder.Entity<Address>().HasData(AddressDataSeed.AddressData());
 
         }
     }

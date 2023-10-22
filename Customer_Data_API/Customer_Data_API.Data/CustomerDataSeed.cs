@@ -1,9 +1,9 @@
-﻿using Customer_Data_API.Models.Domain;
+﻿using Customer_Data_API.Domain.Models;
 using Newtonsoft.Json;
 
 namespace Customer_Data_API.Data
 {
-    public static class CustomerDataSeeder
+    public static class CustomerDataSeed
     {
         public static List<Customer> CustomData()
         {
