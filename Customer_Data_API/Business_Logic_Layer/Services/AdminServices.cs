@@ -1,14 +1,13 @@
 ﻿using Data_Access_Layer.Contracts;
 using Data_Access_Layer.DTOs;
-using Microsoft.EntityFrameworkCore;
 
 namespace Business_Logic_Layer.Services
 {
     public class AdminServices
     {
-        public readonly IAdminRepository _AdminRepository;
-        public AdminServices(IAdminRepository AdminRepository) {
-            _AdminRepository = AdminRepository;
+        public readonly IAdminRepository _AdminService;
+        public AdminServices(IAdminRepository AdminService) {
+            _AdminService = AdminService;
         }
 
         //Edit Customer
@@ -18,7 +17,10 @@ namespace Business_Logic_Layer.Services
             {
                 if (Id != null && customerObj != null)
                 {
-                    return _AdminRepository.EditCustomer(Id, customerObj);
+                    Console.Write("Customer ID and object correctly got from the client!");
+                    Console.WriteLine(Id);
+                    Console.WriteLine(customerObj.Company);
+                    return _AdminService.EditCustomer(Id, customerObj);
                 }
                 else { return null; }
             }
@@ -35,7 +37,7 @@ namespace Business_Logic_Layer.Services
             {
                 if (searchText != null)
                 {
-                    return _AdminRepository.SearchCustomers(searchText);
+                    return _AdminService.SearchCustomers(searchText);
                 }
                 else { return null; }
             }
@@ -50,7 +52,7 @@ namespace Business_Logic_Layer.Services
         {
             try
             {
-                return _AdminRepository.GetCustomersGroupedByZipCode();
+                return _AdminService.GetCustomersGroupedByZipCode();
             }
             catch (Exception)
             {
@@ -63,7 +65,7 @@ namespace Business_Logic_Layer.Services
         {
             try
             {
-                return _AdminRepository.GetAllCustomers();
+                return _AdminService.GetAllCustomers();
             }
             catch (Exception)
             {
@@ -78,7 +80,7 @@ namespace Business_Logic_Layer.Services
             {
                 if (Id != null)
                 {
-                    return _AdminRepository.GetCustomersById(Id);
+                    return _AdminService.GetCustomersById(Id);
                 }
                 else { return null; }
             }

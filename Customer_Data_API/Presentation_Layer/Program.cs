@@ -1,4 +1,7 @@
+using Business_Logic_Layer.Services;
+using Data_Access_Layer.Contracts;
 using Data_Access_Layer.Data;
+using Data_Access_Layer.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -14,6 +17,14 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     options.JsonSerializerOptions.WriteIndented = true;
 });
+
+builder.Services.AddTransient<IAdminRepository, AdminRepository>();
+
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+
+builder.Services.AddScoped<AdminServices>();
+
+builder.Services.AddScoped<UserServices>();
 
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
