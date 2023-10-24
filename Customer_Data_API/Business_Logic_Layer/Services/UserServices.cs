@@ -11,7 +11,7 @@ namespace Business_Logic_Layer.Services
         }
 
         //Edit Customer
-        public UserEditDetailsDTO? EditCustomer(string Id, UserEditDetailsDTO customerObj)
+        public UserDTO? EditCustomer(string Id, UserEditDetailsDTO customerObj)
         {
             try
             {

@@ -17,9 +17,6 @@ namespace Business_Logic_Layer.Services
             {
                 if (Id != null && customerObj != null)
                 {
-                    Console.Write("Customer ID and object correctly got from the client!");
-                    Console.WriteLine(Id);
-                    Console.WriteLine(customerObj.Company);
                     return _AdminService.EditCustomer(Id, customerObj);
                 }
                 else { return null; }

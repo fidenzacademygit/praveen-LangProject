@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Data_Access_Layer.DTOs;
+using Newtonsoft.Json;
 
 namespace Data_Access_Layer.Models
 {
@@ -48,5 +49,6 @@ namespace Data_Access_Layer.Models
 
         [JsonProperty("tags")]
         public required List<string> Tags { get; set; }
+        
     }
 }

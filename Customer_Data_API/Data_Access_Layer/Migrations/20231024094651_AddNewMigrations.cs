@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -7,11 +8,205 @@
 namespace Data_Access_Layer.Migrations
 {
     /// <inheritdoc />
-    public partial class SeedDataToDb : Migration
+    public partial class AddNewMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AspNetRoles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Index = table.Column<int>(type: "int", nullable: false),
+                    Age = table.Column<int>(type: "int", nullable: false),
+                    EyeColor = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Company = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    About = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Registered = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Latitude = table.Column<double>(type: "float", nullable: false),
+                    Longitude = table.Column<double>(type: "float", nullable: false),
+                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetRoleClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Addresses",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Number = table.Column<int>(type: "int", nullable: false),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Zipcode = table.Column<int>(type: "int", nullable: false),
+                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Addresses_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Customers",
                 columns: new[] { "Id", "About", "Age", "Company", "Email", "EyeColor", "Gender", "Index", "Latitude", "Longitude", "Name", "Phone", "Registered", "Tags" },
@@ -267,1220 +462,82 @@ namespace Data_Access_Layer.Migrations
                     { "5aa252befe857c6083def5ee", "Robinette", "5aa252befe857c6083def5ee", 365, "Illinois", "Benson Avenue", 104 },
                     { "5aa252beff7364c43679b0ea", "Brandermill", "5aa252beff7364c43679b0ea", 999, "Texas", "Middleton Street", 100 }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Addresses_CustomerId",
+                table: "Addresses",
+                column: "CustomerId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetRoleClaims_RoleId",
+                table: "AspNetRoleClaims",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserClaims_UserId",
+                table: "AspNetUserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserLogins_UserId",
+                table: "AspNetUserLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_RoleId",
+                table: "AspNetUserRoles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "AspNetUsers",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "NormalizedUserName",
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be01865d3202ddcbac");
+            migrationBuilder.DropTable(
+                name: "Addresses");
 
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be01b5ff30f6b4646e");
+            migrationBuilder.DropTable(
+                name: "AspNetRoleClaims");
 
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be01d77aa8610479a0");
+            migrationBuilder.DropTable(
+                name: "AspNetUserClaims");
 
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be0458e8cc162bfe33");
+            migrationBuilder.DropTable(
+                name: "AspNetUserLogins");
 
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be072b0bef14127450");
+            migrationBuilder.DropTable(
+                name: "AspNetUserRoles");
 
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be0972569cd48200ac");
+            migrationBuilder.DropTable(
+                name: "AspNetUserTokens");
 
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be0ef294f178eddc41");
+            migrationBuilder.DropTable(
+                name: "Customers");
 
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be12eeaf6e32b3c967");
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
 
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be1408467b448e1739");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be14a17889c05b3ea2");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be175f8365afb606f7");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be178a3febd4e4df19");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be1827d1a228695197");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be18a3cc3699e78c80");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be1a64e1bd46413dc2");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be1bead96cffa354dc");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be1c3674bd569d1466");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be212bcc1e8c0d959d");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be2433125841d965f8");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be257ebd73333ba9a9");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be25ee937e4c9f7a3f");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be2b56e2711ab62d87");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be2c706eec131edafc");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be2d48e11f0c3f65e9");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be30ba470bee649350");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be30cf16c16b157242");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be314ad9595bed74d1");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be32cf60e937feb7d9");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be357f450e727dfbc5");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be36a7e1a936506cd5");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be37af1370412ea635");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be396d442999d2cc27");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be3daa81b4e4637f18");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be3f9e58b2d860b331");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be461565d597db695c");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be4683e369a9aee56e");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be46ea8703df79cd5d");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be4b931f58ddb53cf4");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be4e37a7e0bf9f3727");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be4f826780ecdff4b3");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be4fe8b439039fcc56");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be508b8223bf422e00");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be511b5a3093e1c23d");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be52944229bedfd1ee");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be545b2cca5ce3dcaf");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be5463c3f2820ce726");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be5765447d73b3a41e");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be5a7018767dcb7b72");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be5c4920cbc8981900");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be5cad24b578cc0699");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be5d1e07697b16d463");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be632a2b30bd90fdc2");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be641e5ec0facde417");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be662dddfd4953b2c3");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be67367f006b9489bc");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be68733bb0e474c7e9");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be69712efd37d5584c");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be6ac239ceafe89c8e");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be6b50e78c58d6d851");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be6d9001d6b30515b8");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be6e30ebe7ae3fc64a");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be6f343ec5a832a80d");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be6f8aabd2edb78b17");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be70ba4dda9a4a5a6c");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be7101728d3f30dcee");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be761210fe9acd40c6");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be76601e369b15f06e");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be79860e38c27ed6ec");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be7d1af2c3f398d8ff");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be7d96501986a3b026");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be7ec022f41c823f01");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be7ee29caf7206913d");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be7f3adbc29a3282dc");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be869c37d40817ddbd");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be8b672c22234eed5f");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be8d5cc069c85a1f05");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be8def90729e867e15");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be9869cb51a198b1cf");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be9b66f47d352e17c1");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be9e240ceae4c6ce6e");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252be9e56aecf18e1080f");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bea12e32ed1206d064");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bea411e4f2bbf1d11a");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bea721a6c274301bee");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bea78157aa9a65766d");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bea97afe7956cc4bd7");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252beab8bcfa4c523167e");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bead855a516fe754ef");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252beae525ff2f99726b3");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252beb00a9915bf9c869d");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252beb144eb6392d25f33");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252beb25d2f02df62d5d7");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252beb28038b848553a0c");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252beb5aee661a7be5148");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252beb7e1c20b69dcd90a");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252beba88ebf8dd2474ca");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bebb6457e768b6751a");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bebc26237a5cf7384d");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bebc75150fd49a5951");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bebc8109e481e447ab");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bebe8e987d907d0659");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bec718bb2b3aaeb803");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252beca3ab381a1d61e3a");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252becb369d85193123cc");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252becf452dfa1e9f736e");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bed0fd498c0b46a594");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bed2069522d5f5a789");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bed5b788526f5fb77e");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bed66f660cb2cc0837");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bed7adb4dab201399c");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bedad738b26025ea28");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bedbbb6165f8ae25b0");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bee7ef1b8d32d532ce");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252beeb3c8eb482f3eb6f");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252beee7b69e57002a5c0");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bef2bf7fb2450c8675");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bef546fd5deb2b8b88");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252bef71e1a9ea4df885e");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252befa9656dac14fa09e");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252befe857c6083def5ee");
-
-            migrationBuilder.DeleteData(
-                table: "Addresses",
-                keyColumn: "Id",
-                keyValue: "5aa252beff7364c43679b0ea");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be01865d3202ddcbac");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be01b5ff30f6b4646e");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be01d77aa8610479a0");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be0458e8cc162bfe33");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be072b0bef14127450");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be0972569cd48200ac");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be0ef294f178eddc41");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be12eeaf6e32b3c967");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be1408467b448e1739");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be14a17889c05b3ea2");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be175f8365afb606f7");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be178a3febd4e4df19");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be1827d1a228695197");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be18a3cc3699e78c80");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be1a64e1bd46413dc2");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be1bead96cffa354dc");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be1c3674bd569d1466");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be212bcc1e8c0d959d");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be2433125841d965f8");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be257ebd73333ba9a9");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be25ee937e4c9f7a3f");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be2b56e2711ab62d87");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be2c706eec131edafc");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be2d48e11f0c3f65e9");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be30ba470bee649350");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be30cf16c16b157242");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be314ad9595bed74d1");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be32cf60e937feb7d9");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be357f450e727dfbc5");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be36a7e1a936506cd5");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be37af1370412ea635");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be396d442999d2cc27");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be3daa81b4e4637f18");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be3f9e58b2d860b331");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be461565d597db695c");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be4683e369a9aee56e");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be46ea8703df79cd5d");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be4b931f58ddb53cf4");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be4e37a7e0bf9f3727");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be4f826780ecdff4b3");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be4fe8b439039fcc56");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be508b8223bf422e00");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be511b5a3093e1c23d");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be52944229bedfd1ee");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be545b2cca5ce3dcaf");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be5463c3f2820ce726");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be5765447d73b3a41e");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be5a7018767dcb7b72");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be5c4920cbc8981900");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be5cad24b578cc0699");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be5d1e07697b16d463");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be632a2b30bd90fdc2");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be641e5ec0facde417");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be662dddfd4953b2c3");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be67367f006b9489bc");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be68733bb0e474c7e9");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be69712efd37d5584c");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be6ac239ceafe89c8e");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be6b50e78c58d6d851");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be6d9001d6b30515b8");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be6e30ebe7ae3fc64a");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be6f343ec5a832a80d");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be6f8aabd2edb78b17");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be70ba4dda9a4a5a6c");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be7101728d3f30dcee");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be761210fe9acd40c6");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be76601e369b15f06e");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be79860e38c27ed6ec");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be7d1af2c3f398d8ff");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be7d96501986a3b026");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be7ec022f41c823f01");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be7ee29caf7206913d");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be7f3adbc29a3282dc");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be869c37d40817ddbd");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be8b672c22234eed5f");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be8d5cc069c85a1f05");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be8def90729e867e15");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be9869cb51a198b1cf");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be9b66f47d352e17c1");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be9e240ceae4c6ce6e");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252be9e56aecf18e1080f");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bea12e32ed1206d064");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bea411e4f2bbf1d11a");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bea721a6c274301bee");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bea78157aa9a65766d");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bea97afe7956cc4bd7");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252beab8bcfa4c523167e");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bead855a516fe754ef");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252beae525ff2f99726b3");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252beb00a9915bf9c869d");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252beb144eb6392d25f33");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252beb25d2f02df62d5d7");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252beb28038b848553a0c");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252beb5aee661a7be5148");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252beb7e1c20b69dcd90a");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252beba88ebf8dd2474ca");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bebb6457e768b6751a");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bebc26237a5cf7384d");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bebc75150fd49a5951");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bebc8109e481e447ab");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bebe8e987d907d0659");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bec718bb2b3aaeb803");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252beca3ab381a1d61e3a");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252becb369d85193123cc");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252becf452dfa1e9f736e");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bed0fd498c0b46a594");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bed2069522d5f5a789");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bed5b788526f5fb77e");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bed66f660cb2cc0837");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bed7adb4dab201399c");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bedad738b26025ea28");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bedbbb6165f8ae25b0");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bee7ef1b8d32d532ce");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252beeb3c8eb482f3eb6f");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252beee7b69e57002a5c0");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bef2bf7fb2450c8675");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bef546fd5deb2b8b88");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252bef71e1a9ea4df885e");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252befa9656dac14fa09e");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252befe857c6083def5ee");
-
-            migrationBuilder.DeleteData(
-                table: "Customers",
-                keyColumn: "Id",
-                keyValue: "5aa252beff7364c43679b0ea");
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

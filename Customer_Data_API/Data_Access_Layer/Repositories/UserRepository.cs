@@ -18,7 +18,7 @@ namespace Data_Access_Layer.Repositories
         }
 
         //Edit Customer
-        public UserEditDetailsDTO? EditCustomer(string Id, UserEditDetailsDTO customerObj)
+        public UserDTO? EditCustomer(string Id, UserEditDetailsDTO customerObj)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace Data_Access_Layer.Repositories
                             customer.Phone = customerObj.Phone;
                         }
                         _dbContext.SaveChanges();
-                        return customerObj;
+                        return GetCustomersById(Id);
                     }
                     else{return null;}
 

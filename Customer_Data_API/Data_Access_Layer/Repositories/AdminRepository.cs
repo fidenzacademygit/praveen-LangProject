@@ -2,6 +2,7 @@
 using Data_Access_Layer.Contracts;
 using Data_Access_Layer.Data;
 using Data_Access_Layer.DTOs;
+using Data_Access_Layer.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data_Access_Layer.Repositories
@@ -25,14 +26,11 @@ namespace Data_Access_Layer.Repositories
                 var customer = _dbContext.Customers.Include(c => c.Address).FirstOrDefault(c => c.Id == Id);
                 if (customer != null)
                 {
-                    Console.Write("Customer is find from the DB!");
                     _mapper.Map(customerObj, customer);
                     _dbContext.SaveChanges();
-                    Console.Write("Changes updated in the DB!");
-                    return customerObj;
+                    return GetCustomersById(Id);
                 }
                 else {
-                    Console.Write("Customer is Not find from the DB!");
                     return null; 
                 }
             }
