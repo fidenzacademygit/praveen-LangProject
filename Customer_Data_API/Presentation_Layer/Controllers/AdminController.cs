@@ -1,11 +1,15 @@
 ﻿using Business_Logic_Layer.Services;
 using Data_Access_Layer.DTOs;
+using Data_Access_Layer.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation_Layer.Controllers
 {
+
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize(Roles = StaticDetails.Role_Admin)]
     public class AdminController(AdminServices service) : ControllerBase
     {
         private readonly AdminServices _service = service;
