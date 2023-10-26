@@ -1,0 +1,172 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+body {
+  font-family: "Open Sans", sans-serif;
+  box-sizing: border-box;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.my_app {
+  display: flex;
+  flex: 1;
+  height: 100%;
+  justify-self: stretch;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
+}
+/*Styles for Navbar*/
+.nav, .nav-toggle {
+  background-color: #1f2128;
+}
+.nav-toggle {
+  background-color: #213a73 !important;
+}
+
+.txt {
+  color: #f1f1f1;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-menu {
+  background-color: #213a73 !important;
+}
+.dropdown-item:hover {
+  background-color: #1f2128 !important;
+}
+#collapsible-nav-dropdown {
+  color: #f1f1f1;
+}
+
+/* Styles for Dashboard */
+.dashboard_container, .register_container, .login_container {
+  background-color: #1f2128;
+  background-image: url("./assets/Header_bg.png");
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+}
+@media (max-width: 767px) {
+  .dashboard_container {
+    background-size: auto 554px;
+    height: auto;
+  }
+}
+
+/* Styles for footer */
+.footer_container {
+  min-height: 4rem;
+  background-color: #30333d;
+  color: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  bottom: 0;
+  width: 100%;
+}
+@media (max-width: 768px) {
+  .footer_container {
+    min-height: 2rem;
+    padding: 0.75rem;
+    text-align: center;
+  }
+}
+.footer_styles {
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  padding: 0px;
+  margin: 0px;
+}
+
+/*Styles for Customer Table*/
+.customers-div {
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  overflow: visible;
+}
+.table-responsive {
+  overflow-x: scroll !important;
+  border-color: #f1f1f1 !important;
+}
+.customers-div th {
+  background-color: #0d1117 !important;
+  color: #f1f1f1  !important;
+  border-color: #1f2128;
+  height: 50px;
+}
+
+.customers-div td {
+  background-color: #1f2128 !important;
+  color: #f1f1f1  !important;
+}
+.table-title p {
+  color: #f1f1f1;
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
+  font-size: 20px;
+  margin: 0%;
+  padding: 0%;
+}
+.table-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  margin: 1rem;
+}
+.logInButton {
+  background-color: #6c5dd3;
+  margin-left: -1rem;
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  color: #f1f1f1;
+  padding: 0.25rem 1rem 0.25rem 1rem;
+  box-shadow: none;
+}
+/*Login-container*/
+
+.login-div{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  width: auto;
+  background-color: transparent;
+}
+.login-form{
+  margin: 5rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+
+}
+
+.col-md-4 {
+  color: #f1f1f1;
+}

@@ -1,10 +1,15 @@
-﻿using Data_Access_Layer.Contracts;
+﻿using Asp.Versioning;
+using Data_Access_Layer.Contracts;
 using Data_Access_Layer.Models;
 using Data_Access_Layer.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.IdentityModel.Tokens;
 using Presentation_Layer.Models;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Presentation_Layer.Controllers
 {
@@ -14,8 +19,11 @@ namespace Presentation_Layer.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IConfiguration _config;
 
-        public AccountController(IUnitOfWork unitOfWork, 
+        public AccountController(
+            IConfiguration config,
+            IUnitOfWork unitOfWork, 
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
             SignInManager<ApplicationUser> signInManager)
@@ -24,33 +32,9 @@ namespace Presentation_Layer.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
+            _config = config;
         }
-
-        //Login
-        public IActionResult Login(string returnUrl=null)
-        {
-            returnUrl??= Url.Content("~/");
-
-            LoginVM loginVM = new ()
-            { 
-                RedirectUrl = returnUrl 
-            };
-            return View(loginVM);
-        }
-
-        //Logout
-        public async Task<IActionResult> Logout()
-        {
-            await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
-        }
-
-        public IActionResult AccessDenied()
-        {
-            return View();
-        }
-
-
+ 
         public IActionResult Register(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
@@ -87,7 +71,6 @@ namespace Presentation_Layer.Controllers
                     EmailConfirmed = true,
                     UserName = registerVM.Email,
                     CreatedAt = DateTime.Now
-
                 };
 
                 var result = await _userManager.CreateAsync(user, registerVM.Password);
@@ -104,14 +87,7 @@ namespace Presentation_Layer.Controllers
                     }
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    if (string.IsNullOrEmpty(registerVM.RedirectUrl))
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                    else
-                    {
-                        return LocalRedirect(registerVM.RedirectUrl);
-                    }
+                    return RedirectToAction("Index", "Home");
                 }
 
                 foreach (var error in result.Errors)
@@ -126,36 +102,6 @@ namespace Presentation_Layer.Controllers
             });
 
             return View(registerVM);
-        }
-
-        //Login Endpoint
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginVM loginVM)
-        {
-            if (ModelState.IsValid)
-            {
-                var result = await _signInManager.PasswordSignInAsync(loginVM.Email, loginVM.Password, loginVM.RememberMe, lockoutOnFailure: false);
-                Console.WriteLine(result);
-
-                if (result.Succeeded)
-                {
-                    Console.WriteLine("result is okay!");
-                    if (string.IsNullOrEmpty(loginVM.RedirectUrl))
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                    else
-                    {
-                        return LocalRedirect(loginVM.RedirectUrl);
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("result is Not okay!");
-                    ModelState.AddModelError("", "Invalid login attempt");
-                }
-            }
-            return View(loginVM);
         }
     }
 }
