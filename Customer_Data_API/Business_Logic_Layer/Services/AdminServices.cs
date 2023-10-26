@@ -1,4 +1,5 @@
-﻿using Data_Access_Layer.Contracts;
+﻿using Business_Logic_Layer.Exceptions;
+using Data_Access_Layer.Contracts;
 using Data_Access_Layer.DTOs;
 
 namespace Business_Logic_Layer.Services
@@ -19,11 +20,13 @@ namespace Business_Logic_Layer.Services
                 {
                     return _AdminService.EditCustomer(Id, customerObj);
                 }
-                else { return null; }
+                else {
+                    throw new ArgumentException("Invalid input: Id and customerObj must not be null.");
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new CustomEditException("An error occurred while editing the customer.", ex);
             }
         }
 
@@ -36,11 +39,13 @@ namespace Business_Logic_Layer.Services
                 {
                     return _AdminService.SearchCustomers(searchText);
                 }
-                else { return null; }
+                else {
+                    throw new ArgumentException("Invalid input: search text must not be null.");
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new CustomEditException("An error occurred while searching the customer.", ex);
             }
         }
 
@@ -51,9 +56,9 @@ namespace Business_Logic_Layer.Services
             {
                 return _AdminService.GetCustomersGroupedByZipCode();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new CustomEditException("An error occurred while grouping customers.", ex);
             }
         }
 
@@ -64,9 +69,9 @@ namespace Business_Logic_Layer.Services
             {
                 return _AdminService.GetAllCustomers();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new CustomEditException("An error occurred while get all the customers.", ex);
             }
         }
 
@@ -79,11 +84,13 @@ namespace Business_Logic_Layer.Services
                 {
                     return _AdminService.GetCustomersById(Id);
                 }
-                else { return null; }
+                else {
+                    throw new ArgumentException("Invalid input: Id must not be null.");
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new CustomEditException("An error occurred while getting the customer.", ex);
             }
         }
     }

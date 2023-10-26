@@ -1,15 +1,10 @@
-﻿using Asp.Versioning;
-using Data_Access_Layer.Contracts;
+﻿using Data_Access_Layer.Contracts;
 using Data_Access_Layer.Models;
 using Data_Access_Layer.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.IdentityModel.Tokens;
 using Presentation_Layer.Models;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace Presentation_Layer.Controllers
 {

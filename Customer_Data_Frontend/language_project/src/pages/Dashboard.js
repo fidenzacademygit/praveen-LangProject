@@ -1,10 +1,12 @@
 import React from "react";
-import CustomerTable from "../components/CustomerTable";
+
 
 const Dashboard = () => {
   return (
     <div className="dashboard_container">
-      <CustomerTable />
+      <p className="wellcome-txt">
+        Wellcome you are in the Admin Dashboard!
+      </p>
     </div>
   );
 };

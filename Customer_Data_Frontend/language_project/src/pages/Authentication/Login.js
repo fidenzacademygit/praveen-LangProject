@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { accessToken, apiUrl } from "../../types/APIHelper";
+import { useNavigate } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 
-const Login = () => {
+const Login = ({ setIsAuthenticated, setUserRole, setUserEmail }) => {
+  const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [passwordError, setpasswordError] = useState("");
@@ -29,13 +33,58 @@ const Login = () => {
       setpasswordError("");
       formIsValid = true;
     }
-
     return formIsValid;
   };
 
   const loginSubmit = (e) => {
     e.preventDefault();
-    handleValidation();
+    if (handleValidation()) {
+      const requestData = new FormData();
+      requestData.append("Email", email);
+      requestData.append("Password", password);
+
+      fetch(`${apiUrl}/UserLogin/Login`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: requestData,
+      })
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("API call failed");
+          }
+        })
+        .then((data) => {
+          const token = data.token;
+
+          if (token) {
+            setIsAuthenticated(true);
+
+            const decodedToken = jwtDecode(token);
+            const userRole =
+              decodedToken[
+                "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+              ];
+            const userEmail =
+              decodedToken[
+                "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
+              ];
+            localStorage.setItem("authToken", token);
+            localStorage.setItem("authRole", userRole);
+            setUserRole(userRole);
+            localStorage.setItem("authEmail", userEmail);
+            setUserEmail(userEmail);
+          }
+
+          navigate(`/Dashboard`);
+        })
+        .catch((error) => {
+          console.error("API call error:", error);
+        });
+    }
   };
   return (
     <div className="login_container">

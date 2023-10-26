@@ -45,6 +45,13 @@ body {
 #collapsible-nav-dropdown {
   color: #f1f1f1;
 }
+.nav-details{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
 
 /* Styles for Dashboard */
 .dashboard_container, .register_container, .login_container {
@@ -65,6 +72,15 @@ body {
     background-size: auto 554px;
     height: auto;
   }
+}
+
+.wellcome-txt{
+  color: #f1f1f1;
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
+  font-size: 40px;
+  margin: 0%;
+  padding: 0%;
 }
 
 /* Styles for footer */
@@ -167,6 +183,16 @@ body {
 
 }
 
-.col-md-4 {
+.col-md-4, .edit-page {
   color: #f1f1f1;
+  margin: 2rem;
+}
+
+.get-distance {
+  color: #f1f1f1;
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
+  font-size: 18px;
+  margin: 0%;
+  padding: 0%;
 }

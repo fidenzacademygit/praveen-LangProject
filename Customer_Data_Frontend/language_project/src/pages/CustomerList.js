@@ -1,9 +1,9 @@
 import React from 'react'
-
+import CustomerTable from "../components/CustomerTable";
 const CustomerList = () => {
   return (
     <div id="cutomers" className="dashboard_container">
-      <p>Hello i'm Customer List</p>
+      <CustomerTable />
     </div>
   )
 }

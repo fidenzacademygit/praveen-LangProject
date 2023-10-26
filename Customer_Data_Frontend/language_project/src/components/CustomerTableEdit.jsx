@@ -1,9 +1,9 @@
 import axios from "axios";
 import React from "react";
-import { useCallback } from "react";
 import { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
 import { accessToken, apiUrl } from "../types/APIHelper";
+import { useNavigate } from "react-router-dom";
 
 axios.interceptors.request.use(
   (config) => {
@@ -15,9 +15,15 @@ axios.interceptors.request.use(
   }
 );
 
-const CustomerTable = () => {
+const CustomerTableEdit = () => {
   const [customers, setCustomers] = useState([]);
   const [requestError, setRequestError] = useState();
+
+  const navigate = useNavigate();
+
+  const handleEdit = () => {
+    navigate('/EditCustomerPage');
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,7 +69,7 @@ const CustomerTable = () => {
               <td>{customer.age}</td>
               <td>{customer.email}</td>
               <td>
-              <button onClick={() => {}} className="logInButton">More Info</button>
+              <button onClick={handleEdit} className="logInButton">Edit Customer</button>
               </td>
             </tr>
           ))}
@@ -76,4 +82,4 @@ const CustomerTable = () => {
   );
 };
 
-export default CustomerTable;
+export default CustomerTableEdit;

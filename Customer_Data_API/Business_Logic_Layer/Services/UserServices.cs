@@ -1,4 +1,5 @@
-﻿using Data_Access_Layer.Contracts;
+﻿using Business_Logic_Layer.Exceptions;
+using Data_Access_Layer.Contracts;
 using Data_Access_Layer.DTOs;
 
 namespace Business_Logic_Layer.Services
@@ -19,10 +20,12 @@ namespace Business_Logic_Layer.Services
                 {
                     return _UserRepository.EditCustomer(Id, customerObj);
                 }
-                else { return null; }
+                else {
+                    throw new ArgumentException("Invalid input: Id and User details must not be null.");
+                }
             }
-            catch (Exception) { 
-                throw; 
+            catch (Exception ex) {
+                throw new CustomEditException("An error occurred while editing the customer.", ex);
             }
         }
 
@@ -35,10 +38,13 @@ namespace Business_Logic_Layer.Services
                 {
                     return _UserRepository.GetDistance(Id, latitude, longitude);
                 }
-                else { return null; }
+                else {
+                    throw new ArgumentException("Invalid input: Id must not be null.");
+                }
             }
-            catch (Exception) { 
-                throw; 
+            catch (Exception ex)
+            {
+                throw new CustomEditException("An error occurred while calculating the distance.", ex);
             }
         }
 
@@ -51,10 +57,13 @@ namespace Business_Logic_Layer.Services
                 {
                     return _UserRepository.GetCustomersById(Id);
                 }
-                else { return null; }
+                else {
+                    throw new ArgumentException("Invalid input: Id must not be null.");
+                }
             }
-            catch (Exception) { 
-                throw; 
+            catch (Exception ex)
+            {
+                throw new CustomEditException("An error occurred while getting the customer.", ex);
             }
         }
     }

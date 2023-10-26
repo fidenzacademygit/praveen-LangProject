@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using Azure.Core;
 using Data_Access_Layer.Contracts;
 using Data_Access_Layer.Models;
 using Data_Access_Layer.Utility;
@@ -44,13 +45,21 @@ namespace Presentation_Layer.Controllers
             var result = await _signInManager.PasswordSignInAsync(loginVM.Email, loginVM.Password, loginVM.RememberMe, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                //GenerateAdminTokenString(loginVM);
-                //GenerateCustomerTokenString(loginVM);
-                return Ok("SuccessFull Login");
+                var AccessToken =  GenerateAdminTokenString(loginVM);                
+                //GenerateCustomerTokenString(loginVM);          
+
+                if (!string.IsNullOrEmpty(AccessToken))
+                {
+                    return Ok(new { token = AccessToken });
+                }
+                else
+                {
+                    return NotFound("Token generation failed");
+                }
             }
             else
             {
-                return Ok("UnsuccessFull Login");
+                return NotFound("UnsuccessFull Login");
             }
         }
 
