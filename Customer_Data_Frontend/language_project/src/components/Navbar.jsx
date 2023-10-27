@@ -20,7 +20,7 @@ function CollapsibleExample({ isAuthenticated, userRole, userEmail , setIsAuthen
   return (
     <Navbar collapseOnSelect expand="lg" className="nav">
       <Container>
-        <Navbar.Brand href="#home">
+        <Navbar.Brand href="#">
           <p className="txt">Language Project</p>
         </Navbar.Brand>
         <Navbar.Toggle
@@ -28,7 +28,8 @@ function CollapsibleExample({ isAuthenticated, userRole, userEmail , setIsAuthen
           className="nav-toggle"
         />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto">
+          {isAuthenticated  ? (
+            <Nav className="me-auto">
             <NavDropdown title="Features" id="collapsible-nav-dropdown">
               <NavDropdown.Item as={Link} to="/CustomerList">
                 <p className="txt">Customer List</p>
@@ -47,6 +48,27 @@ function CollapsibleExample({ isAuthenticated, userRole, userEmail , setIsAuthen
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>
+          ) : (
+            <Nav className="me-auto">
+            <NavDropdown title="Features" id="collapsible-nav-dropdown">
+              <NavDropdown.Item as={Link} to="/">
+                <p className="txt">Customer List</p>
+              </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/">
+                <p className="txt">Edit Customer</p>
+              </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/">
+                <p className="txt">Get Distance</p>
+              </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/">
+                <p className="txt">Search Customer</p>
+              </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/">
+                <p className="txt">Customers Group By Zipcode</p>
+              </NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+          )}
           <Nav>
             {isAuthenticated ? (
               <div className="nav-details">
