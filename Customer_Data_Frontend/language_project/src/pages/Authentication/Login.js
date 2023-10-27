@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { accessToken, apiUrl } from "../../types/APIHelper";
 import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
+import WarningAlert from "../../components/WarningAlert";
 
 const Login = ({ setIsAuthenticated, setUserRole, setUserEmail }) => {
   const navigate = useNavigate();
@@ -10,6 +11,7 @@ const Login = ({ setIsAuthenticated, setUserRole, setUserEmail }) => {
   const [email, setEmail] = useState("");
   const [passwordError, setpasswordError] = useState("");
   const [emailError, setemailError] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleValidation = (event) => {
     let formIsValid = true;
@@ -83,6 +85,7 @@ const Login = ({ setIsAuthenticated, setUserRole, setUserEmail }) => {
         })
         .catch((error) => {
           console.error("API call error:", error);
+          setShowAlert(true);
         });
     }
   };
@@ -131,6 +134,7 @@ const Login = ({ setIsAuthenticated, setUserRole, setUserEmail }) => {
           </button>
         </form>
       </div>
+      {showAlert && <WarningAlert />}
     </div>
   );
 };
