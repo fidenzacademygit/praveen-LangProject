@@ -11,6 +11,7 @@ import SearchCustomer from "./pages/SearchCustomer";
 import GroupedCustomers from "./pages/GroupedCustomers";
 import EditCustomerPage from "./pages/EditCustomerPage";
 import React, { useEffect, useState } from "react";
+import Register from "./pages/Authentication/Register";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -52,6 +53,7 @@ function App() {
               />
             }
           />
+          <Route exact path="/Registration" element={<Register />} />
           <Route exact path="/Dashboard" element={<Dashboard />} />
           <Route exact path="/CustomerList" element={<CustomerList />} />
           <Route exact path="/EditCustomer" element={<EditCustomer />} />

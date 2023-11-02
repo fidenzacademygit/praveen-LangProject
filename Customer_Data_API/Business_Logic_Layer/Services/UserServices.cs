@@ -1,10 +1,11 @@
-﻿using Business_Logic_Layer.Exceptions;
+﻿using Business_Logic_Layer.Contracts;
+using Business_Logic_Layer.Exceptions;
 using Data_Access_Layer.Contracts;
 using Data_Access_Layer.DTOs;
 
 namespace Business_Logic_Layer.Services
 {
-    public class UserServices
+    public class UserServices : IUserServices
     {
         private readonly IUserRepository _UserRepository;
         public UserServices(IUserRepository UserRepository) { 

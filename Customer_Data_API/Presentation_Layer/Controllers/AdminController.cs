@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using Business_Logic_Layer.Contracts;
 using Business_Logic_Layer.Services;
 using Data_Access_Layer.DTOs;
 using Data_Access_Layer.Utility;
@@ -12,9 +13,9 @@ namespace Presentation_Layer.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
     [Authorize(Roles = StaticDetails.Role_Admin)]
-    public class AdminController(AdminServices service) : ControllerBase
+    public class AdminController(IAdminServices service) : ControllerBase
     {
-        private readonly AdminServices _service = service;
+        private readonly IAdminServices _service = service;
 
         [HttpPut("{Id}")]
         public IActionResult EditCustomer(string Id, [FromBody] AdminDTO customerObj)

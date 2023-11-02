@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Presentation_Layer.Models
+namespace Data_Access_Layer.Models
 {
-    public class LoginVM
+    public class LoginUser
     {
         [Required]
         public string Email { get; set; }
@@ -14,7 +14,5 @@ namespace Presentation_Layer.Models
         public bool RememberMe { get; set; }
 
         public string? RedirectUrl { get; set; }
-
-
     }
 }

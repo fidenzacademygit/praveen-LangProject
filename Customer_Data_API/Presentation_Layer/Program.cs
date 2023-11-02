@@ -1,3 +1,4 @@
+using Business_Logic_Layer.Contracts;
 using Business_Logic_Layer.Services;
 using Data_Access_Layer.Contracts;
 using Data_Access_Layer.Data;
@@ -44,9 +45,19 @@ builder.Services.AddTransient<IAdminRepository, AdminRepository>();
 
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 
-builder.Services.AddScoped<AdminServices>();
+builder.Services.AddTransient<IRegisterUserRepository, RegisterUserRepository>();
 
-builder.Services.AddScoped<UserServices>();
+builder.Services.AddScoped<IAdminServices, AdminServices>();
+
+builder.Services.AddScoped<IUserServices, UserServices>();
+
+builder.Services.AddScoped<IRegisterUserService, RegisterUserService>();
+
+builder.Services.AddScoped<IAddRoleService, AddRoleService>();
+
+builder.Services.AddScoped<IGenerateTokenServices, GenerateTokenServices>();
+
+builder.Services.AddScoped<ILoginUserService, LoginUserService>();
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
@@ -76,20 +87,12 @@ builder.Services.AddAuthentication(x =>
     };
 });
 
-
-
 builder.Services.AddCors(options => options.AddPolicy(
     "Policy",
     build => build.WithOrigins("http://localhost:3000").AllowAnyOrigin().AllowAnyHeader()
     )); ;
 
 var app = builder.Build();
-
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");    
-    app.UseHsts();
-}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

@@ -1,13 +1,20 @@
 import axios from "axios";
 import React from "react";
-import { useCallback } from "react";
 import { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
-import { accessToken, apiUrl } from "../types/APIHelper";
+import { apiUrl } from "../types/APIHelper";
+
+
 
 axios.interceptors.request.use(
+  
   (config) => {
-    config.headers.authorization = `Bearer ${accessToken}`;
+    const accessToken = localStorage.getItem("authToken");
+    if(accessToken){
+      config.headers.authorization = `Bearer ${accessToken}`;
+    }else{
+      console.log("AccessToken Does Not Here!");
+    }
     return config;
   },
   (error) => {

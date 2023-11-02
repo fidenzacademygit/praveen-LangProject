@@ -1,102 +1,50 @@
-﻿using Data_Access_Layer.Contracts;
+﻿using Business_Logic_Layer.Contracts;
 using Data_Access_Layer.Models;
-using Data_Access_Layer.Utility;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Presentation_Layer.Models;
 
 namespace Presentation_Layer.Controllers
 {
+    [Route("api/[controller]")]
     public class AccountController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IConfiguration _config;
+        private readonly IRegisterUserService _registerUserService;
+        private readonly IAddRoleService _addRoleService;
 
         public AccountController(
-            IConfiguration config,
-            IUnitOfWork unitOfWork, 
-            UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager,
-            SignInManager<ApplicationUser> signInManager)
+            IRegisterUserService registerUser,
+            IAddRoleService addRoleService
+            )
         {
-            _unitOfWork = unitOfWork;
-            _userManager = userManager;
-            _roleManager = roleManager;
-            _signInManager = signInManager;
-            _config = config;
+            _registerUserService = registerUser;
+            _addRoleService = addRoleService;
         }
  
-        public IActionResult Register(string returnUrl = null)
+        //Add Role
+        [HttpPost("AddRole")]
+        public IActionResult AddRole()
         {
-            returnUrl ??= Url.Content("~/");
-            if(!_roleManager.RoleExistsAsync(StaticDetails.Role_Admin).GetAwaiter().GetResult())
+            if (_addRoleService.AddRole())
             {
-                _roleManager.CreateAsync(new IdentityRole(StaticDetails.Role_Admin)).Wait();
-                _roleManager.CreateAsync(new IdentityRole(StaticDetails.Role_Customer)).Wait();
+                return Ok("User Successfully Registered.");
             }
-
-            RegisterVM registerVM = new()
+            else
             {
-                RoleList = _roleManager.Roles.Select(x => new SelectListItem { 
-                    Text = x.Name, 
-                    Value = x.Name
-                }),
-                RedirectUrl = returnUrl
-            };
-
-            return View(registerVM);
+                return NotFound("User Not Available!");
+            }
         }
 
         //Register Endpoint
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterVM registerVM)
+        [HttpPost("Register")]
+        public IActionResult Register(RegisterUser registerVM)
         {
-            if (ModelState.IsValid)
+            if (registerVM != null)
             {
-                ApplicationUser user = new()
-                {
-                    Name = registerVM.Name,
-                    Email = registerVM.Email,
-                    PhoneNumber = registerVM.PhoneNumber,
-                    NormalizedEmail = registerVM.Email.ToUpper(),
-                    EmailConfirmed = true,
-                    UserName = registerVM.Email,
-                    CreatedAt = DateTime.Now
-                };
-
-                var result = await _userManager.CreateAsync(user, registerVM.Password);
-
-                if (result.Succeeded)
-                {
-                    if (!string.IsNullOrEmpty(registerVM.Role))
-                    {
-                        await _userManager.AddToRoleAsync(user, registerVM.Role);
-                    }
-                    else
-                    {
-                        await _userManager.AddToRoleAsync(user, StaticDetails.Role_Customer);
-                    }
-
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
-                }
-
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
+                return Ok(_registerUserService.Register(registerVM));
             }
-            registerVM.RoleList = _roleManager.Roles.Select(x => new SelectListItem
-            {
-                Text = x.Name,
-                Value = x.Name
-            });
-
-            return View(registerVM);
+            else
+            {               
+                return NotFound("User Not Available!");
+            }
         }
     }
 }

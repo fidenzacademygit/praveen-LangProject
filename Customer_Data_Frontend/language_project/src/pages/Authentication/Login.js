@@ -64,6 +64,7 @@ const Login = ({ setIsAuthenticated, setUserRole, setUserEmail }) => {
 
           if (token) {
             setIsAuthenticated(true);
+            console.log(token);
 
             const decodedToken = jwtDecode(token);
             const userRole =
